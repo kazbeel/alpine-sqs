@@ -1,7 +1,8 @@
 # Copyright 2017 Ronald E. Oribio R.
+# Copyright 2024 KaZBeeL
 #
 # This file is part of alpine-sqs which is released under the GPLv3.
-# See https://github.com/roribio/alpine-sqs for details.
+# See https://github.com/kazbeel/alpine-sqs for details.
 
 FROM appropriate/curl as Builder
 
@@ -22,6 +23,7 @@ RUN \
 
 FROM anapsix/alpine-java:8
 LABEL maintainer="Ronald E. Oribio R. https://github.com/roribio"
+LABEL maintainer="KaZBeeL https://github.com/kazbeel"
 
 COPY --from=Builder /tmp/sqs-alpine/ /opt/
 COPY etc/ /etc/
@@ -29,14 +31,14 @@ COPY opt/ /opt/
 
 RUN \
   apk add --update \
-    nodejs \
-    nodejs-npm \
-    supervisor \
-    libtasn1=4.14-r0 \
+  nodejs \
+  nodejs-npm \
+  supervisor \
+  libtasn1=4.14-r0 \
   && apk upgrade musl \
   && rm -rf \
-    /var/cache/apk/* \
-    /etc/supervisord.conf \
+  /var/cache/apk/* \
+  /etc/supervisord.conf \
   && ln -s /etc/supervisor/supervisord.conf /etc/supervisord.conf \
   && cd /opt/sqs-insight \
   && npm install
